@@ -215,6 +215,8 @@ GEM
     public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
+    pundit (2.5.0)
+      activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
     rack (2.2.16)
@@ -297,6 +299,8 @@ GEM
     ruby-progressbar (1.13.0)
     rubyzip (2.4.1)
     sass-embedded (1.66.1-x64-mingw-ucrt)
+      google-protobuf (~> 3.23)
+    sass-embedded (1.66.1-x86_64-linux-gnu)
       google-protobuf (~> 3.23)
     securerandom (0.4.1)
     selenium-webdriver (4.33.0)
@@ -391,6 +395,7 @@ DEPENDENCIES
   pg
   propshaft
   puma (>= 5.0)
+  pundit
   rails (~> 8.0.2)
   rubocop-rails-omakase
   selenium-webdriver
