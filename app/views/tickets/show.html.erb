@@ -1,0 +1,5 @@
+<h1><%= @ticket.title %></h1>
+<p><strong>Описание:</strong> <%= @ticket.description %></p>
+<p><strong>Статус:</strong> <%= @ticket.status %></p>
+
+<%= link_to "Редактировать статус", edit_project_ticket_path(@project, @ticket), class: "btn btn-primary" %>

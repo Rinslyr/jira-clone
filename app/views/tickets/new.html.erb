@@ -1,0 +1,14 @@
+<h2>Новая задача</h2>
+
+<%= form_with(model: [@project, @ticket], local: true) do |form| %>
+  <%= form.label :title %>
+  <%= form.text_field :title, class: "form-control" %>
+
+  <%= form.label :description %>
+  <%= form.text_area :description, class: "form-control" %>
+
+  <%= form.label :status %>
+  <%= form.select :status, options_for_select(["To Do", "In Progress", "Done"]), {}, class: "form-control" %>
+
+  <%= form.submit "Создать задачу", class: "btn btn-success mt-3" %>
+<% end %>

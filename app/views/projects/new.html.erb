@@ -1,0 +1,18 @@
+<!-- app/views/projects/new.html.erb -->
+<h1>Создание нового проекта</h1>
+
+<%= form_with(model: @project, url: projects_path) do |form| %>
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+
+  <%= form.label :description %>
+  <%= form.text_area :description %>
+
+  <%= form.submit "Создать проект" %>
+
+  <%= form_with(model: [@project, @ticket], local: true) do |form| %>
+    <%= form.text_field :title %>
+    <%= form.submit %>
+  <% end %>
+
+<% end %>

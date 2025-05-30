@@ -46,6 +46,9 @@ gem 'devise'
 gem 'bootstrap', '~> 5.3'
 gem 'dartsass-sprockets', '~> 3.0.0'
 
+gem 'sprockets', '~> 3.7'
+gem 'sprockets-rails', '~> 3.4'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

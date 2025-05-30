@@ -1,0 +1,14 @@
+<h1>Задачи проекта <%= @project.title %></h1>
+
+<ul>
+  <% @tickets.each do |ticket| %>
+    <li>
+      <%= link_to ticket.title, project_ticket_path(@project, ticket) %> —
+      <%= ticket.status %>
+      |
+      <%= link_to "Изменить статус", edit_project_ticket_path(@project, ticket) %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Назад к проекту", project_path(@project), class: "btn btn-secondary" %>

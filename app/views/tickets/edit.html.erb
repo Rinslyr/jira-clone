@@ -1,0 +1,12 @@
+<h1>Изменить статус задачи</h1>
+
+<%= form_with(model: [@project, @ticket], local: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :status %>
+    <%= form.select :status, options_for_select(["To Do", "In Progress", "Done"], selected: @ticket.status), {}, class: "form-control" %>
+  </div>
+
+  <%= form.submit "Обновить статус", class: "btn btn-success mt-3" %>
+<% end %>
+
+<%= link_to "Назад", project_ticket_path(@project, @ticket), class: "btn btn-secondary mt-3" %>

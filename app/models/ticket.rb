@@ -4,4 +4,6 @@ class Ticket < ApplicationRecord
 
   validates :title, presence: true
   validates :status, inclusion: { in: %w[To\ Do In\ Progress Done] }
+
+  has_many :comments, dependent: :destroy
 end

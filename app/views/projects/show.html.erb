@@ -1,0 +1,46 @@
+<h1>Проект: <%= @project.title %></h1>
+
+<h2>Задачи:</h2>
+<% if @tickets.any? %>
+  <ul>
+    <% @tickets.each do |ticket| %>
+      <li>
+        <strong><%= ticket.title %></strong>
+        <p><%= ticket.description %></p>
+        <p>Статус: <%= ticket.status %></p>
+        <%= link_to "Редактировать", edit_project_ticket_path(@project, ticket), class: "btn btn-primary" %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Нет задач</p>
+<% end %>
+
+<%= link_to "Назад к проекту", project_path(@project), class: "btn btn-secondary" %>
+
+
+
+<!--
+<h2><%#= @ticket.title %></h2>
+<p><%#= @ticket.description %></p>
+<p>Статус: <%#= @ticket.status %></p>
+
+<%# if current_user.admin? || current_user == @ticket.user %>
+  <%#= link_to "Редактировать", edit_project_ticket_path(@project, @ticket) %>
+<%# end %>
+
+<hr />
+
+<h3>Комментарии</h3>
+<%# @ticket.comments.each do |comment| %>
+  <div class="mb-3">
+    <strong><%#= comment.user.email %>:</strong>
+    <p><%#= comment.content %></p>
+  </div>
+<%# end %>
+
+<%#= form_with(model: [@project, @ticket, @ticket.comments.build], local: true) do |form| %>
+  <%#= form.text_area :content, class: "form-control mb-2" %>
+  <%#= form.submit "Добавить комментарий", class: "btn btn-primary" %>
+<%# end %>
+-->

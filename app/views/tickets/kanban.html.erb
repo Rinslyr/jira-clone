@@ -1,0 +1,18 @@
+<h1>Kanban Board for <%= @project.title %></h1>
+
+<div class="d-flex gap-4">
+  <% @statuses.each do |status| %>
+    <div class="border p-3 rounded" style="min-width: 250px;">
+      <h4><%= status %></h4>
+      <% @project.tickets.where(status: status).each do |ticket| %>
+        <div class="card mb-2">
+          <div class="card-body">
+            <%= link_to ticket.title, project_ticket_path(@project, ticket) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to "Назад", project_tickets_path(@project), class: "btn btn-secondary mt-3" %>
