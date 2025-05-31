@@ -41,7 +41,7 @@ gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
-gem 'uri', '0.13.1'
+gem 'uri', '1.0.3'
 gem 'devise'
 
 gem 'pundit'
