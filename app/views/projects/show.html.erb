@@ -1,22 +1,128 @@
-<h1>Проект: <%= @project.title %></h1>
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="sm:flex sm:items-center sm:justify-between">
+    <div>
+      <div class="flex items-center">
+        <h1 class="text-2xl font-bold text-gray-900"><%= @project.title %></h1>
+      </div>
+      <p class="mt-2 text-sm text-gray-700"><%= @project.description %></p>
+    </div>
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+      <%= link_to new_project_ticket_path(@project), class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto" do %>
+        <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+        </svg>
+        New Ticket
+      <% end %>
+    </div>
+  </div>
 
-<h2>Задачи:</h2>
-<% if @tickets.any? %>
-  <ul>
-    <% @tickets.each do |ticket| %>
-      <li>
-        <strong><%= ticket.title %></strong>
-        <p><%= ticket.description %></p>
-        <p>Статус: <%= ticket.status %></p>
-        <%= link_to "Редактировать", edit_project_ticket_path(@project, ticket), class: "btn btn-primary" %>
-      </li>
+  <div class="mt-8">
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h2 class="text-xl font-semibold text-gray-900">Tickets</h2>
+        <p class="mt-2 text-sm text-gray-700">A list of all tickets in this project.</p>
+      </div>
+    </div>
+
+    <div class="mt-8 flow-root">
+      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+          <% if @tickets.any? %>
+            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-300">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Title</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Priority</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Assignee</th>
+                    <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                      <span class="sr-only">Actions</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                  <% @tickets.each do |ticket| %>
+                    <tr>
+                      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                        <div class="flex items-center">
+                          <div>
+                            <div class="font-medium text-gray-900">
+                              <%= link_to ticket.title, project_ticket_path(@project, ticket), class: "hover:text-indigo-600" %>
+                            </div>
+                            <div class="mt-1 text-gray-500 line-clamp-2"><%= ticket.description %></div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
+                          <%= case ticket.status
+                            when 'to_do' then 'bg-gray-100 text-gray-800'
+                            when 'in_progress' then 'bg-yellow-100 text-yellow-800'
+                            when 'done' then 'bg-green-100 text-green-800'
+                            end %>">
+                          <%= ticket.status_display %>
+                        </span>
+                      </td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
+                          <%= case ticket.priority
+                            when 'low' then 'bg-blue-100 text-blue-800'
+                            when 'medium' then 'bg-yellow-100 text-yellow-800'
+                            when 'high' then 'bg-red-100 text-red-800'
+                            end %>">
+                          <%= ticket.priority&.titleize %>
+                        </span>
+                      </td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <% if ticket.assignee %>
+                          <div class="flex items-center">
+                            <img class="h-8 w-8 rounded-full" src="https://avatars.dicebear.com/api/initials/<%= ticket.assignee.email %>.svg" alt="">
+                            <span class="ml-2"><%= ticket.assignee.email %></span>
+                          </div>
+                        <% else %>
+                          <span class="text-gray-400">Unassigned</span>
+                        <% end %>
+                      </td>
+                      <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                        <%= link_to "Edit", edit_project_ticket_path(@project, ticket), class: "text-indigo-600 hover:text-indigo-900" %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            <div class="text-center py-12">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              </svg>
+              <h3 class="mt-2 text-sm font-medium text-gray-900">No tickets</h3>
+              <p class="mt-1 text-sm text-gray-500">Get started by creating a new ticket.</p>
+              <div class="mt-6">
+                <%= link_to new_project_ticket_path(@project), class: "inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" do %>
+                  <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                  </svg>
+                  New Ticket
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <%= link_to projects_path, class: "inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700" do %>
+      <svg class="mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+      </svg>
+      Back to Projects
     <% end %>
-  </ul>
-<% else %>
-  <p>Нет задач</p>
-<% end %>
-
-<%= link_to "Назад к проекту", project_path(@project), class: "btn btn-secondary" %>
+  </div>
+</div>
 
 
 

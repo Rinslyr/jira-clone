@@ -1,19 +1,16 @@
 default: &default
-  adapter: postgresql
-  encoding: unicode
+  adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
 development:
-  database: jira_clone_development
-  username: jira_db
-  password: 12345
-  host: localhost
-  port: 5432
   <<: *default
+  database: db/development.sqlite3
 
 test:
-  database: jira_clone_test
-  username: jira_db
-  password: 12345
   <<: *default
+  database: db/test.sqlite3
+
+production:
+  <<: *default
+  database: db/production.sqlite3

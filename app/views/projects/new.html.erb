@@ -1,18 +1,52 @@
 <!-- app/views/projects/new.html.erb -->
-<h1>Создание нового проекта</h1>
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <div class="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Create New Project</h1>
+      <p class="mt-2 text-sm text-gray-500">Create a new project to start organizing your tickets.</p>
+    </div>
+  </div>
 
-<%= form_with(model: @project, url: projects_path) do |form| %>
-  <%= form.label :title %>
-  <%= form.text_field :title %>
+  <div class="mt-8">
+    <%= form_with(model: @project, local: true, class: "space-y-6") do |form| %>
+      <% if @project.errors.any? %>
+        <div class="rounded-md bg-red-50 p-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-red-800">
+                <%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:
+              </h3>
+              <div class="mt-2 text-sm text-red-700">
+                <ul class="list-disc pl-5 space-y-1">
+                  <% @project.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
 
-  <%= form.label :description %>
-  <%= form.text_area :description %>
+      <div>
+        <%= form.label :title, class: "form-label" %>
+        <%= form.text_field :title, class: "form-input", placeholder: "Enter project title" %>
+      </div>
 
-  <%= form.submit "Создать проект" %>
+      <div>
+        <%= form.label :description, class: "form-label" %>
+        <%= form.text_area :description, rows: 4, class: "form-input", placeholder: "Describe your project..." %>
+      </div>
 
-  <%= form_with(model: [@project, @ticket], local: true) do |form| %>
-    <%= form.text_field :title %>
-    <%= form.submit %>
-  <% end %>
-
-<% end %>
+      <div class="flex items-center justify-end space-x-4 pt-4">
+        <%= link_to "Cancel", projects_path, class: "btn-secondary" %>
+        <%= form.submit "Create Project", class: "btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

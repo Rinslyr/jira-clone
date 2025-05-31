@@ -1,30 +1,19 @@
 Rails.application.routes.draw do
   devise_for :users
+  
+  # Root route
   root to: "projects#index"
 
-  resources :projects do
-    resources :tickets
-  end
+  # Standalone tickets route for global ticket list
+  resources :tickets, only: [:index]
 
-  resources :projects do
-    resources :tickets
-  end
-
+  # Nested routes
   resources :projects do
     resources :tickets do
       collection do
         get 'kanban'
       end
-    end
-  end
-
-  resources :projects do
-    resources :tickets do
       resources :comments, only: [:create]
     end
   end
-
-  resources :projects
-
-  resources :projects
 end
