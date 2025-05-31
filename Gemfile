@@ -43,11 +43,6 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 gem 'uri', '0.13.1'
 gem 'devise'
-gem 'bootstrap', '~> 5.3'
-gem 'dartsass-sprockets', '~> 3.0.0'
-
-gem 'sprockets', '~> 3.7'
-gem 'sprockets-rails', '~> 3.4'
 
 gem 'pundit'
 
