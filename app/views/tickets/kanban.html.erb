@@ -1,18 +1,54 @@
-<h1>Kanban Board for <%= @project.title %></h1>
-
-<div class="d-flex gap-4">
-  <% @statuses.each do |status| %>
-    <div class="border p-3 rounded" style="min-width: 250px;">
-      <h4><%= status %></h4>
-      <% @project.tickets.where(status: status).each do |ticket| %>
-        <div class="card mb-2">
-          <div class="card-body">
-            <%= link_to ticket.title, project_ticket_path(@project, ticket) %>
-          </div>
-        </div>
-      <% end %>
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-2xl font-semibold text-gray-900"><%= @project.title %> - Kanban Board</h1>
     </div>
-  <% end %>
-</div>
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+      <%= link_to "New Ticket", new_project_ticket_path(@project), class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto" %>
+    </div>
+  </div>
 
-<%= link_to "Назад", project_tickets_path(@project), class: "btn btn-secondary mt-3" %>
+  <div class="mt-8 flex gap-6 overflow-x-auto pb-4">
+    <% @statuses.each do |status| %>
+      <div class="flex-shrink-0 w-80">
+        <div class="bg-gray-50 rounded-t-lg px-4 py-2 border border-gray-200">
+          <h3 class="text-sm font-medium text-gray-900 flex items-center justify-between">
+            <%= status.titleize %>
+            <span class="bg-gray-100 text-gray-600 ml-2 py-1 px-2 rounded-full text-xs font-medium">
+              <%= @project.tickets.where(status: status).count %>
+            </span>
+          </h3>
+        </div>
+        <div class="mt-2 space-y-3">
+          <% @project.tickets.where(status: status).each do |ticket| %>
+            <%= link_to project_ticket_path(@project, ticket), class: "block" do %>
+              <div class="bg-white shadow rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                <div class="text-sm font-medium text-gray-900 truncate"><%= ticket.title %></div>
+                <% if ticket.description.present? %>
+                  <div class="mt-1 text-sm text-gray-500 line-clamp-2"><%= ticket.description %></div>
+                <% end %>
+                <div class="mt-2 flex items-center gap-2">
+                  <% if ticket.assignee %>
+                    <img class="h-6 w-6 rounded-full" src="https://avatars.dicebear.com/api/initials/<%= ticket.assignee.email %>.svg" alt="">
+                  <% end %>
+                  <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium <%= ticket.priority == 'high' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600' %>">
+                    <%= ticket.priority %>
+                  </span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-6">
+    <%= link_to project_tickets_path(@project), class: "inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900" do %>
+      <svg class="mr-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+      </svg>
+      Back to List View
+    <% end %>
+  </div>
+</div>

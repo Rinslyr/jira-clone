@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-gray-50">
   <head>
     <title><%= content_for(:title) || "Jira Clone" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -17,11 +17,45 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="h-full">
+    <div class="min-h-full">
+      <nav class="bg-white shadow-sm">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex h-16 justify-between">
+            <div class="flex">
+              <div class="flex flex-shrink-0 items-center">
+                <img class="h-8 w-auto" src="/icon.svg" alt="Jira Clone">
+              </div>
+              <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                <%= link_to "Projects", projects_path, class: "inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900" %>
+                <%= link_to "Tickets", tickets_path, class: "inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700" %>
+              </div>
+            </div>
+            <div class="hidden sm:ml-6 sm:flex sm:items-center">
+              <div class="relative ml-3">
+                <div>
+                  <button type="button" class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" id="user-menu-button">
+                    <span class="sr-only">Open user menu</span>
+                    <img class="h-8 w-8 rounded-full" src="https://avatars.dicebear.com/api/initials/<%= current_user&.email || 'guest' %>.svg" alt="">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="py-10">
+        <main>
+          <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <%= yield %>
+          </div>
+        </main>
+      </div>
+    </div>
   </body>
 </html>
